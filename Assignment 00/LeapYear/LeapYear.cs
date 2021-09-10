@@ -22,26 +22,49 @@ namespace LeapYear
 
         public static void Main(string[] args) 
         {
-            new LeapYearFunctions().UserInputLeapYear();
+            UserInputLeapYear();
         }
 
 
-         public void UserInputLeapYear(){
-                var l = new LeapYearFunctions();
-                Console.WriteLine("Enter a number to see if it's a leapyear!:");
-                
-                var yearbool = l.IsLeapYear(l.GetUserInput());
-
-                if(yearbool)
+         public static void UserInputLeapYear(){
+                Console.WriteLine("Enter a year to find out if it's a leapyear:");
+                try 
                 {
-                    Console.WriteLine("yay");
-                } else {
-                    Console.WriteLine("nay");
+                    ValidateUserInput(GetUserInput());
                 }
+                catch  (Exception)
+                {
+                    Console.WriteLine("Only numbers are allowed.");
+                }
+                
             
         }
 
-        public int GetUserInput()
+        public static void ValidateUserInput(int year)
+        {
+            try 
+            {
+                if(year < 1582) 
+                {
+                    throw new ArgumentException("Year has to be higher than 1582");
+                } 
+                else 
+                {
+                    if(new LeapYearFunctions().IsLeapYear(year))
+                    {
+                        Console.WriteLine("yay");
+                    } else {
+                        Console.WriteLine("nay");
+                    }
+                }
+            } 
+            catch (ArgumentException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        public static int GetUserInput()
         {
             string val;
             val = Console.ReadLine();
