@@ -68,7 +68,7 @@ namespace LeapYearTest
 
          [Theory]
          [InlineData("eeeh, not a number or year", "Only numbers are allowed.")]
-        public void Test_non_year_or_number(Val <T>, string expected){
+        public void Test_non_year_or_number(string val, string expected){
             //ARRANGE
             var writer = new StringWriter();
             Console.SetOut(writer);//takes output of console - does not account for newlines
