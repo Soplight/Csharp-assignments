@@ -49,7 +49,28 @@ namespace Assignment1
 
         public static IEnumerable<string> InnerText(string html, string tag)
         {
-            throw new NotImplementedException();
+            var pattern = @"<("+tag+@")[^>]*>([\s\S]*?(?=(</\1>)))";;//match on the given tag, then on content inside tags
+            
+            Regex firstRegex = new Regex(pattern);
+
+            MatchCollection matches = firstRegex.Matches(html);
+
+            foreach (Match m in matches)
+            {
+                string matchedTagContent = m.Groups[2].Value;
+
+                var secondPattern = @"(?<nestedTag>[<].*?[a-zA-Z0-9 ]*[>])";
+
+                Regex secondRegex = new Regex(secondPattern);
+
+                MatchCollection matchForNestedContent = secondRegex.Matches(matchedTagContent);
+
+                foreach (Match mNest in matchForNestedContent)
+                {
+                    matchedTagContent = matchedTagContent.Replace(mNest.Groups["nestedTag"].Value, "");
+                }
+                yield return matchedTagContent; //Contains the text from the nested HTML tag that we want.
+            }
         }
     }
 }
