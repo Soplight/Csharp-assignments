@@ -1,0 +1,29 @@
+name: Build Test and Run Projects
+
+on: 
+  push:
+  pull_request:
+    branches:
+      - master
+#On push or pull from master do the following jobs:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1.7.2
+      with:
+        dotnet-version: 5.0.x #Setup .NET (dotnet) to run.
+        
+    - name: Install dependencies
+      run: dotnet restore
+      #Make it so dependecies are installed and ready. From the csproj files i'm assuming...
+      
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+      
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal
