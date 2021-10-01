@@ -11,28 +11,34 @@ namespace Assignment_02
         }
     public class Student
     {
-        public Student(int id){
+        public Student(int id, DateTime end, DateTime start, DateTime grad, string name, string surname)
+        {
             this.Id = id;
+            this.GivenName = name;
+            this.Surname = surname;
+            this.StartDate = start;
+            this.EndDate = end;
+            this.GraduationDate = grad;
 
             var currentTime = DateTime.Now;
 
-            if(DateTime.Compare(currentTime, StartDate) == 0)
+            if(EndDate < GraduationDate && DateTime.Now > EndDate)
+            {
+
+                this.Status = Status.Dropout;
+
+            } else if (StartDate < DateTime.Now && DateTime.Now < StartDate.AddMonths(6))
             {
 
                 this.Status = Status.New;
 
-            } else if (DateTime.Compare(currentTime, EndDate) > 0)
-            {
+            } else if (DateTime.Now > GraduationDate && GraduationDate == EndDate){
 
                 this.Status = Status.Graduated;
 
-            } else if (DateTime.Compare(currentTime, StartDate) > 0){
-
-                this.Status = Status.Active;
-
             } else {
 
-                this.Status = Status.Dropout;
+                this.Status = Status.Active;
 
             }
 
